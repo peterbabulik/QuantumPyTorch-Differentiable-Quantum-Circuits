@@ -120,7 +120,7 @@ While classical simulation is limited by the number of qubits, the principles de
 
 ## 7. Code Availability
 
-The code and experiments for this project, named **QuILT** (Quantum-Inspired Learning and Tuning), are publicly available on GitHub.
+The code and experiments for this project, named **QuILT** (Quantum-Inspired Learning in Tensorspace), are publicly available on GitHub.
 
 *   **Main Repository:** [https://github.com/peterbabulik/QuILT/](https://github.com/peterbabulik/QuILT/)
 
