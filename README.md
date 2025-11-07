@@ -1,3 +1,97 @@
+# QuantumPyTorch: A Native PyTorch Framework for Quantum Simulation
+### From Differentiable Circuits to Quantum Chaos and Algorithms
+
+This repository introduces **QuantumPyTorch**, a proof-of-concept framework for building, simulating, and training quantum circuits directly within the PyTorch ecosystem. By representing quantum states and operators as native `torch.Tensors`, we leverage the full power of PyTorch's GPU acceleration and automatic differentiation (`autograd`) engine for a wide range of quantum simulations, without relying on external quantum computing libraries.
+
+This document serves as the primary paper and guide for the project, showcasing its versatility across four distinct domains:
+1.  **Quantum Machine Learning (QML):** Creating differentiable quantum circuits that function as trainable layers in an ML pipeline.
+2.  **Quantum-Inspired Optimization:** Using a variational quantum algorithm (VQE) to solve a classical optimization problem (Neural Architecture Search).
+3.  **Quantum Physics Simulation:** Modeling the complex dynamics of quantum chaos and information scrambling by simulating Out-of-Time-Order Correlators (OTOCs).
+4.  **General-Purpose Quantum Algorithms:** Building a canonical quantum algorithm (Grover's Search) from a "zoo" of fundamental gates to test its performance under ideal and noisy conditions.
+
+---
+
+## Abstract
+
+The confluence of quantum computing and machine learning has opened new paradigms for computational science. However, the integration between these domains often relies on specialized intermediary software. This paper introduces "QuantumPyTorch," an approach for the direct implementation of quantum circuits and algorithms within PyTorch. By representing quantum states as tensors and gates as differentiable matrix operations, we demonstrate the viability of this approach through a suite of increasingly complex applications. These range from a Variational Quantum Classifier (VQC) and a VQE-based optimizer for Neural Architecture Search, to advanced simulations of quantum chaos via OTOCs and the implementation of Grover's search algorithm. Our results showcase the simplicity, flexibility, and power of a seamlessly integrated quantum-classical workflow capable of exploring not just QML, but also fundamental quantum dynamics and algorithm performance, all entirely within a classical deep learning framework.
+
+## 1. Introduction
+Quantum computing is poised to revolutionize numerous fields by leveraging the principles of quantum mechanics. A particularly promising area is Quantum Machine Learning (QML), which often involves hybrid quantum-classical models orchestrated by libraries like PyTorch or TensorFlow. This has led to the development of powerful software like Qiskit, Cirq, and PennyLane, which provide high-level abstractions for quantum circuits.
+
+This project explores an alternative: the direct and native implementation of quantum mechanics within PyTorch. We present **QuantumPyTorch**, an approach that treats quantum statevectors and operators as fundamental `torch.Tensor` objects. This allows quantum circuits to be treated as standard `torch.nn.Module` objects, fully compatible with PyTorch's ecosystem.
+
+We posit that this direct integration offers several advantages:
+*   **Simplicity:** An intuitive model for researchers already proficient in PyTorch.
+*   **Flexibility:** Quantum circuits can be seamlessly embedded within larger classical deep learning architectures.
+*   **Performance:** Directly leverages PyTorch's highly optimized backend for tensor operations, including massive parallelization on GPUs.
+
+To validate this approach, we present a suite of four case studies that demonstrate the framework's expanding capabilities: a Variational Quantum Classifier, a `VQEOptimizer` for a Neural Architecture Search (NAS) problem, a simulation of quantum chaos via Out-of-Time-Order Correlators (OTOCs), and a from-scratch implementation of Grover's Search Algorithm to test computational performance under noise.
+
+## 2. The QuantumPyTorch Methodology
+The core principle of QuantumPyTorch is to represent all quantum mechanical concepts using PyTorch's native `torch.Tensor` class.
+
+### 2.1. Statevectors and Operators
+A quantum statevector for *n* qubits is represented as a 1D tensor of size 2<sup>n</sup>. Quantum gates are represented as square matrices (2D tensors). A gate acting on a specific qubit is constructed by taking the tensor product (`torch.kron`) of the gate matrix with identity matrices for all other qubits.
+
+### 2.2. Differentiable Circuits
+A parameterized quantum circuit is a sequence of matrix-vector multiplications. Since the parameters are part of PyTorch's computation graph, the entire circuit is differentiable, allowing for gradient-based optimization.
+
+### 2.3. Noise Models
+To simulate realistic, near-term quantum devices, we introduce noise as a probabilistic mathematical operation. After a gate is applied, a probabilistic function determines if a random error (e.g., a Pauli X or Z gate) is applied to the statevector. This allows us to study the effect of decoherence on our simulations.
+
+### 2.4. Measurement
+The framework supports two types of measurement depending on the task:
+1.  **Expectation Value:** For QML and VQE, we calculate the expectation value `⟨ψ|H|ψ⟩` of an observable `H`, which yields a continuous output for optimization.
+2.  **Projective Measurement:** For algorithms like Grover's, we simulate a final measurement by calculating the probability of collapsing to each basis state, given by `|⟨i|ψ⟩|^2` for each basis state `|i⟩`.
+
+## 3. Experiments and Results
+We validate the framework with four distinct experiments, each showcasing a different capability.
+
+### 3.1. Experiment 1: Quantum-Enhanced Classification
+We build a variational quantum classifier to solve the `make_circles` binary classification problem. The model uses classical data to encode angles in a parameterized quantum circuit, which is then trained using standard PyTorch optimizers to classify the data, achieving a **96.67% test accuracy**. This demonstrates the core QML functionality.
+
+### 3.2. Experiment 2: VQEOptimizer for Neural Architecture Search
+We repurpose the Variational Quantum Eigensolver (VQE) as a general-purpose optimizer for a classical Neural Architecture Search (NAS) problem. By encoding 16 transformer architectures into a 4-qubit Hamiltonian, the `VQEOptimizer` successfully identifies the optimal architecture by finding the ground state, demonstrating a novel application of quantum-inspired optimization.
+
+### 3.3. Experiment 3: Simulating Quantum Dynamics and Chaos (OTOCs)
+To prove the framework's power for physics simulation, we calculate Out-of-Time-Order Correlators (OTOCs), a key diagnostic for quantum chaos and information scrambling. We simulate a 6-qubit Ising chain and show how noise systematically suppresses scrambling. The plot below shows the OTOC for an ideal system versus the averaged results for systems with increasing levels of noise, perfectly capturing the effects of decoherence.
+
+![Effect of Noise on Information Scrambling](https://raw.githubusercontent.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/main/images/otoc_noise_suppression.png)
+
+This result demonstrates that `QuantumPyTorch` is a powerful tool for computational physics research, allowing for the study of complex, many-body quantum phenomena.
+
+### 3.4. Experiment 4: General-Purpose Algorithm Simulation (Grover's Search)
+To showcase the framework's utility as a general-purpose quantum computer simulator, we built a "zoo" of fundamental quantum gates (H, X, Z, S, T, CNOT, MCZ) and used them to implement Grover's Search Algorithm from scratch. We tasked the algorithm with finding the `|11>` state in a 2-qubit search space. The results below compare the ideal performance to a noisy simulation (p=0.1 error rate).
+
+![Grover's Algorithm Performance](https://raw.githubusercontent.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/main/images/grover_performance.png)
+
+The ideal simulation finds the correct answer with 100% probability. In contrast, the noisy simulation's success rate plummets to 68%, with the remaining 32% of probability leaking into incorrect answers. This powerfully visualizes how noise can cause quantum algorithms to fail and validates the framework's use for studying algorithmic performance and fault tolerance.
+
+## 4. Discussion
+The success of these four experiments validates the thesis that it is practical and powerful to implement quantum simulations directly and natively in PyTorch.
+
+*   **Advantages:** The primary advantage is the seamless integration into a mature deep learning ecosystem, leveraging GPU acceleration and a vast library of existing tools. The framework is flexible, intuitive for those familiar with PyTorch, and now includes a robust noise model.
+*   **Limitations:** The statevector simulation approach is memory-intensive, scaling exponentially (O(2<sup>n</sup>)) with the number of qubits *n*. This restricts simulations to a moderate number of qubits (typically < 30). The framework also does not connect to real quantum hardware.
+
+## 5. Conclusion
+`QuantumPyTorch` has been successfully demonstrated as a versatile methodology for building, simulating, and training quantum circuits directly within PyTorch. We have validated its effectiveness across four distinct domains: quantum machine learning, quantum-inspired optimization, quantum chaos simulation, and quantum algorithm analysis. This approach simplifies the quantum-classical workflow and provides a powerful platform for research, prototyping, and education. By lowering the barrier to entry, a direct, tensor-based approach can foster greater cross-pollination between the deep learning and quantum computing communities.
+
+## 6. Code Availability
+The code for all experiments is publicly available in this repository.
+
+*   **Experiment 1 & 2 (QML and VQE-NAS):** The original notebooks for the VQC and VQE optimizer.
+    *   [QuILT.ipynb](https://github.com/peterbabulik/QuILT/blob/main/QuILT.ipynb)
+    *   [QuILT_NAS.ipynb](https://github.com/peterbabulik/QuILT/blob/main/QuILT_NAS.ipynb)
+
+*   **Experiment 3 (OTOCs and Quantum Chaos):** The Jupyter notebook containing the simulation of information scrambling in an Ising chain, with and without noise.
+    *   [QuantumPyTorch_OTOCs.ipynb](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/QuantumPyTorch_OTOCs.ipynb)
+
+*   **Experiment 4 (Gates and Grover's Algorithm):** The Jupyter notebook containing the "zoo" of quantum gates and the implementation of Grover's Search under ideal and noisy conditions.
+    *   [QuantumPyTorchGates.ipynb](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/QuantumPyTorchGates.ipynb)
+
+
+## Original Paper for:
+
 # **QuantumPyTorch: Direct Integration of Quantum Computing in PyTorch for Optimization and Machine Learning**
 
 ## Abstract
