@@ -56,14 +56,14 @@ We repurpose the Variational Quantum Eigensolver (VQE) as a general-purpose opti
 ### 3.3. Experiment 3: Simulating Quantum Dynamics and Chaos (OTOCs)
 To prove the framework's power for physics simulation, we calculate Out-of-Time-Order Correlators (OTOCs), a key diagnostic for quantum chaos and information scrambling. We simulate a 6-qubit Ising chain and show how noise systematically suppresses scrambling. The plot below shows the OTOC for an ideal system versus the averaged results for systems with increasing levels of noise, perfectly capturing the effects of decoherence.
 
-![Effect of Noise on Information Scrambling](https://raw.githubusercontent.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/main/images/otoc_noise_suppression.png)
+![Effect of Noise on Information Scrambling](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/QuantumPyTorch_OTOCs.ipynb)
 
 This result demonstrates that `QuantumPyTorch` is a powerful tool for computational physics research, allowing for the study of complex, many-body quantum phenomena.
 
 ### 3.4. Experiment 4: General-Purpose Algorithm Simulation (Grover's Search)
 To showcase the framework's utility as a general-purpose quantum computer simulator, we built a "zoo" of fundamental quantum gates (H, X, Z, S, T, CNOT, MCZ) and used them to implement Grover's Search Algorithm from scratch. We tasked the algorithm with finding the `|11>` state in a 2-qubit search space. The results below compare the ideal performance to a noisy simulation (p=0.1 error rate).
 
-![Grover's Algorithm Performance](https://raw.githubusercontent.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/main/images/grover_performance.png)
+![Grover's Algorithm Performance]([https://raw.githubusercontent.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/main/images/grover_performance.png](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/QuantumPyTorchGates.ipynb))
 
 The ideal simulation finds the correct answer with 100% probability. In contrast, the noisy simulation's success rate plummets to 68%, with the remaining 32% of probability leaking into incorrect answers. This powerfully visualizes how noise can cause quantum algorithms to fail and validates the framework's use for studying algorithmic performance and fault tolerance.
 
