@@ -3,11 +3,12 @@
 
 This repository introduces **QuantumPyTorch**, a proof-of-concept framework for building, simulating, and training quantum circuits directly within the PyTorch ecosystem. By representing quantum states and operators as native `torch.Tensors`, we leverage the full power of PyTorch's GPU acceleration and automatic differentiation (`autograd`) engine for a wide range of quantum simulations, without relying on external quantum computing libraries.
 
-This document serves as the primary paper and guide for the project, showcasing its versatility across four distinct domains:
+This document serves as the primary paper and guide for the project, showcasing its versatility across five distinct domains:
 1.  **Quantum Machine Learning (QML):** Creating differentiable quantum circuits that function as trainable layers in an ML pipeline.
 2.  **Quantum-Inspired Optimization:** Using a variational quantum algorithm (VQE) to solve a classical optimization problem (Neural Architecture Search).
 3.  **Quantum Physics Simulation:** Modeling the complex dynamics of quantum chaos and information scrambling by simulating Out-of-Time-Order Correlators (OTOCs).
 4.  **General-Purpose Quantum Algorithms:** Building a canonical quantum algorithm (Grover's Search) from a "zoo" of fundamental gates to test its performance under ideal and noisy conditions.
+5.  **Quantum Random Number Generation (QRNG):** A comparative analysis of QRNG circuits, demonstrating massive parallel generation and a ~56x speedup over standard simulations.
 
 ---
 
@@ -25,7 +26,7 @@ We posit that this direct integration offers several advantages:
 *   **Flexibility:** Quantum circuits can be seamlessly embedded within larger classical deep learning architectures.
 *   **Performance:** Directly leverages PyTorch's highly optimized backend for tensor operations, including massive parallelization on GPUs.
 
-To validate this approach, we present a suite of four case studies that demonstrate the framework's expanding capabilities: a Variational Quantum Classifier, a `VQEOptimizer` for a Neural Architecture Search (NAS) problem, a simulation of quantum chaos via Out-of-Time-Order Correlators (OTOCs), and a from-scratch implementation of Grover's Search Algorithm to test computational performance under noise.
+To validate this approach, we present a suite of five case studies that demonstrate the framework's expanding capabilities: a Variational Quantum Classifier, a `VQEOptimizer` for a Neural Architecture Search (NAS) problem, a simulation of quantum chaos via Out-of-Time-Order Correlators (OTOCs), a from-scratch implementation of Grover's Search Algorithm, and a high-performance Quantum Random Number Generator (QRNG).
 
 ## 2. The QuantumPyTorch Methodology
 The core principle of QuantumPyTorch is to represent all quantum mechanical concepts using PyTorch's native `torch.Tensor` class.
@@ -45,7 +46,7 @@ The framework supports two types of measurement depending on the task:
 2.  **Projective Measurement:** For algorithms like Grover's, we simulate a final measurement by calculating the probability of collapsing to each basis state, given by `|⟨i|ψ⟩|^2` for each basis state `|i⟩`.
 
 ## 3. Experiments and Results
-We validate the framework with four distinct experiments, each showcasing a different capability.
+We validate the framework with five distinct experiments, each showcasing a different capability.
 
 ### 3.1. Experiment 1: Quantum-Enhanced Classification
 We build a variational quantum classifier to solve the `make_circles` binary classification problem. The model uses classical data to encode angles in a parameterized quantum circuit, which is then trained using standard PyTorch optimizers to classify the data, achieving a **96.67% test accuracy**. This demonstrates the core QML functionality.
@@ -67,14 +68,19 @@ To showcase the framework's utility as a general-purpose quantum computer simula
 
 The ideal simulation finds the correct answer with 100% probability. In contrast, the noisy simulation's success rate plummets to 68%, with the remaining 32% of probability leaking into incorrect answers. This powerfully visualizes how noise can cause quantum algorithms to fail and validates the framework's use for studying algorithmic performance and fault tolerance.
 
+### 3.5. Experiment 5: Quantum Random Number Generation (QRNG) Analysis
+We perform a comparative analysis of various Quantum Random Number Generator (QRNG) circuit designs (Basic Hadamard, Rotated, Entangled, and Parallel) to evaluate their statistical randomness and performance. The study includes generating massive 1024-bit random numbers and subjecting the output to rigorous statistical tests (Chi-Square, Shannon Entropy, Autocorrelation). We also demonstrate a **~56x speedup** over a standard `cirq` implementation by leveraging `QuantumPyTorch`'s batch processing and GPU acceleration.
+
+[Quantum Random Number Generation Analysis](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/Quantum_random_number_circuits2.ipynb)
+
 ## 4. Discussion
-The success of these four experiments validates the thesis that it is practical and powerful to implement quantum simulations directly and natively in PyTorch.
+The success of these five experiments validates the thesis that it is practical and powerful to implement quantum simulations directly and natively in PyTorch.
 
 *   **Advantages:** The primary advantage is the seamless integration into a mature deep learning ecosystem, leveraging GPU acceleration and a vast library of existing tools. The framework is flexible, intuitive for those familiar with PyTorch, and now includes a robust noise model.
 *   **Limitations:** The statevector simulation approach is memory-intensive, scaling exponentially (O(2<sup>n</sup>)) with the number of qubits *n*. This restricts simulations to a moderate number of qubits (typically < 30). The framework also does not connect to real quantum hardware.
 
 ## 5. Conclusion
-`QuantumPyTorch` has been successfully demonstrated as a versatile methodology for building, simulating, and training quantum circuits directly within PyTorch. We have validated its effectiveness across four distinct domains: quantum machine learning, quantum-inspired optimization, quantum chaos simulation, and quantum algorithm analysis. This approach simplifies the quantum-classical workflow and provides a powerful platform for research, prototyping, and education. By lowering the barrier to entry, a direct, tensor-based approach can foster greater cross-pollination between the deep learning and quantum computing communities.
+`QuantumPyTorch` has been successfully demonstrated as a versatile methodology for building, simulating, and training quantum circuits directly within PyTorch. We have validated its effectiveness across five distinct domains: quantum machine learning, quantum-inspired optimization, quantum chaos simulation, quantum algorithm analysis, and high-performance random number generation. This approach simplifies the quantum-classical workflow and provides a powerful platform for research, prototyping, and education. By lowering the barrier to entry, a direct, tensor-based approach can foster greater cross-pollination between the deep learning and quantum computing communities.
 
 ## 6. Code Availability
 The code for all experiments is publicly available in this repository.
@@ -88,6 +94,9 @@ The code for all experiments is publicly available in this repository.
 
 *   **Experiment 4 (Gates and Grover's Algorithm):** The Jupyter notebook containing the "zoo" of quantum gates and the implementation of Grover's Search under ideal and noisy conditions.
     *   [QuantumPyTorchGates.ipynb](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/QuantumPyTorchGates.ipynb)
+
+*   **Experiment 5 (QRNG Analysis):** The Jupyter notebook containing the comparative analysis of QRNG circuits and statistical tests.
+    *   [Quantum_random_number_circuits2.ipynb](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/Quantum_random_number_circuits2.ipynb)
 
 
 ## Original Paper for:
