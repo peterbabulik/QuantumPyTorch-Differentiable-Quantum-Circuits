@@ -96,7 +96,7 @@ The code for all experiments is publicly available in this repository.
     *   [QuantumPyTorchGates.ipynb](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/QuantumPyTorchGates.ipynb)
 
 *   **Experiment 5 (QRNG Analysis):** The Jupyter notebook containing the comparative analysis of QRNG circuits and statistical tests.
-    *   [Quantum_random_number_circuits2.ipynb](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/Quantum_random_number_circuits2.ipynb)
+    *   [Quantum_random_number_circuits2.ipynb](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/Qantum_random_number_circuits2.ipynb)
 
 
 ## Original Paper for:
