@@ -71,7 +71,7 @@ The ideal simulation finds the correct answer with 100% probability. In contrast
 ### 3.5. Experiment 5: Quantum Random Number Generation (QRNG) Analysis
 We perform a comparative analysis of various Quantum Random Number Generator (QRNG) circuit designs (Basic Hadamard, Rotated, Entangled, and Parallel) to evaluate their statistical randomness and performance. The study includes generating massive 1024-bit random numbers and subjecting the output to rigorous statistical tests (Chi-Square, Shannon Entropy, Autocorrelation). We also demonstrate a **~56x speedup** over a standard `cirq` implementation by leveraging `QuantumPyTorch`'s batch processing and GPU acceleration.
 
-[Quantum Random Number Generation Analysis](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/main/Quantum_random_number_circuits2.ipynb)
+[Quantum Random Number Generation Analysis](https://github.com/peterbabulik/QuantumPyTorch-Differentiable-Quantum-Circuits/blob/fa95e2e81167327f840c55a42b5812175407fcf8/Qantum_random_number_circuits2.ipynb)
 
 ## 4. Discussion
 The success of these five experiments validates the thesis that it is practical and powerful to implement quantum simulations directly and natively in PyTorch.
